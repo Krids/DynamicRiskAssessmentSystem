@@ -13,3 +13,6 @@ data/processed/*.csv
 docs/models/*.pkl
 
 .github/empty
+
+*.csv
+*.txt

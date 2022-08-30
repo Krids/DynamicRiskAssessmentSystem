@@ -8,7 +8,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 import json
 
+from src.pipeline.pipeline import Pipeline
 
+class DeploymentPipeline(Pipeline)
 
 ##################Load config.json and correct path variable
 with open('config.json','r') as f:
