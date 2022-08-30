@@ -8,6 +8,10 @@ Date: 30/08/2022
 import os
 
 BASE_PATH = os.path.abspath('.')
+
+CONFIG_FILE = os.path.join(BASE_PATH, 'src', 'utils', 'config.json')
+
+
 DATA_PATH = os.path.join(BASE_PATH, 'data')
 DATA_RAW = os.path.join(DATA_PATH, 'raw')
 DATA_PROCESSED = os.path.join(DATA_PATH, 'processed')
