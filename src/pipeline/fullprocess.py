@@ -6,11 +6,11 @@ Date: 30/08/2022
 """
 
 from src.pipeline.pipeline import Pipeline
-import training
-import scoring
-import deployment
-import diagnostics
-import reporting
+# import training
+# import scoring
+# import deployment
+# import diagnostics
+# import reporting
 
 class FullprocessPipelie(Pipeline):
 

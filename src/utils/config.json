@@ -3,5 +3,6 @@
     "output_folder_path": "data/ingesteddata/",
     "test_data_path": "data/testdata/",
     "output_model_path": "docs/models/practicemodels/",
+    "output_metrics_path": "docs/metrics/",
     "prod_deployment_path": "docs/models/production_deployment/"
 }

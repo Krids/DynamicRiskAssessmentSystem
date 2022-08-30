@@ -13,11 +13,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 import json
 
-from src.pipeline.pipeline import Pipeline
 from src.utils.projects_paths import BASE_PATH, CONFIG_FILE
 
 
-class TrainingPipeline(Pipeline):
+class Training:
 
     def __init__(self) -> None:
         super().__init__()
@@ -40,7 +39,7 @@ class TrainingPipeline(Pipeline):
 
         logit = LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
                                    intercept_scaling=1, l1_ratio=None, max_iter=100,
-                                   multi_class='warn', n_jobs=None, penalty='l2',
+                                   multi_class='auto', n_jobs=None, penalty='l2',
                                    random_state=0, solver='liblinear', tol=0.0001, verbose=0,
                                    warm_start=False)
 

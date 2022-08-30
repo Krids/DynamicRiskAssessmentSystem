@@ -8,10 +8,10 @@ Date: 30/08/2022
 import logging as log
 from argparse import ArgumentParser, Namespace
 from src.pipeline.diagnostics import DiagnosticsPipeline
-from src.pipeline.fullprocess import FullprocessPipelie
+# from src.pipeline.fullprocess import FullprocessPipeline
 from src.pipeline.ingestion import IngestionPipeline
 from src.pipeline.reporting import ReportingPipeline
-from src.pipeline.training import TrainingPipeline
+from src.pipeline.training_pipeline import TrainingPipeline
 
 from src.utils.timer import Timer
 
@@ -20,7 +20,7 @@ PIPELINES = {
     "training": TrainingPipeline(),
     "diagnostics": DiagnosticsPipeline(),
     "reporting": ReportingPipeline(),
-    "automation": FullprocessPipelie(),
+    # "automation": FullprocessPipeline(),
 }
 
 
