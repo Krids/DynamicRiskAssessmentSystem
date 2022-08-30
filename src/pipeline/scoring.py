@@ -22,4 +22,4 @@ test_data_path = os.path.join(config['test_data_path'])
 def score_model():
     #this function should take a trained model, load test data, and calculate an F1 score for the model relative to the test data
     #it should write the result to the latestscore.txt file
-
+    pass
