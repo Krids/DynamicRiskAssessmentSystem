@@ -5,38 +5,42 @@ Name: Felipe Lana Machado
 Date: 30/08/2022
 """
 
-import os
-import sys
 import logging as log
 from argparse import ArgumentParser, Namespace
+from src.pipeline.diagnostics import DiagnosticsPipeline
+from src.pipeline.fullprocess import FullprocessPipelie
 from src.pipeline.ingestion import IngestionPipeline
+from src.pipeline.reporting import ReportingPipeline
+from src.pipeline.training import TrainingPipeline
 
 from src.utils.timer import Timer
 
 PIPELINES = {
     "ingestion": IngestionPipeline(),
-    # "training": TrainingPipeline(),
-    # "diagnostics": DiagnosticsPipeline(),
-    # "reporting": ReportingPipeline(),
-    # "automation": AutomationPipeline(),
+    "training": TrainingPipeline(),
+    "diagnostics": DiagnosticsPipeline(),
+    "reporting": ReportingPipeline(),
+    "automation": FullprocessPipelie(),
 }
 
+
 def get_args() -> Namespace:
-    parser = ArgumentParser(description="Data Science Illuvium Modules")
+    parser = ArgumentParser(description="A Dynamic Risk Assessment System")
 
     parser.add_argument(
         "--pipeline",
         "-p",
         type=str,
-        required=False,
+        required=True,
         choices=PIPELINES.keys(),
         help="Pipeline Name",
     )
 
     return parser.parse_args()
 
+
 def main(args):
-    
+
     log.basicConfig(
         level=log.INFO,
         filemode='w',

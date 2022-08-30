@@ -1,3 +1,10 @@
+"""
+This file is responsible for the execution of this script.
+
+Name: Felipe Lana Machado
+Date: 30/08/2022
+"""
+
 from flask import Flask, session, jsonify, request
 import pandas as pd
 import numpy as np

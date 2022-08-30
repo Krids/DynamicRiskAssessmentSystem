@@ -1,3 +1,11 @@
+"""
+This file is responsible for the ingestion of the data 
+inside the data folder.
+
+Name: Felipe Lana Machado
+Date: 30/08/2022
+"""
+
 import pandas as pd
 import os
 import json

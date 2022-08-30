@@ -17,3 +17,4 @@ class Timer:
         minutes, seconds = divmod(rest, 60)
         self.started_at = None
         return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
+        
