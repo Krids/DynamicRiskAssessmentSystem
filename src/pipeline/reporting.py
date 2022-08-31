@@ -1,5 +1,6 @@
 """
-This file is responsible for the execution of this script.
+This file is responsible for the reporting of the
+    confusion matrix in the trained model.
 
 Name: Felipe Lana Machado
 Date: 30/08/2022

@@ -1,10 +1,15 @@
+"""
+This file is responsible for the deployment on the 
+    trained model into pikle.
+
+Name: Felipe Lana Machado
+Date: 31/08/2022
+"""
+
 from flask import Flask, session, jsonify, request
 import pandas as pd
 import numpy as np
 import pickle
-import create_prediction_model
-import diagnosis 
-import predict_exited_from_saved_model
 import json
 import os
 
