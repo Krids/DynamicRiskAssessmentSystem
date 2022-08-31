@@ -36,18 +36,14 @@ class IngestionPipeline(Pipeline):
             compile them together, 
             and write to an output file.
         """    
-        df_list = pd.DataFrame(columns=['corporation', 'lastmonth_activity', 'lastyear_activity', 'number_of_employees', 'exited'])
 
         filenames = os.listdir(os.path.join(BASE_PATH, self.input_folder_path))
 
-        for each_filename in filenames:
-            df1 = pd.read_csv(os.path.join(BASE_PATH, self.input_folder_path+each_filename))
-            df_list=df_list.append(df1)
-
         data_list = []
         for filename in filenames:
-            log.info(f'Ingesting file: {filename}')
-            data_list.append(pd.read_csv(os.path.join(BASE_PATH, self.input_folder_path, filename), index_col = None))
+            if 'dvc' not in filename:
+                log.info(f'Ingesting file: {filename}')
+                data_list.append(pd.read_csv(os.path.join(BASE_PATH, self.input_folder_path, filename), index_col = None))
         df = pd.concat(data_list, axis = 0, ignore_index = True)
 
         df.drop_duplicates(inplace = True)
@@ -57,7 +53,7 @@ class IngestionPipeline(Pipeline):
         
         ingested_files_pth = os.path.join(BASE_PATH, self.output_folder_path, 'ingestedfiles.txt')
         with open(ingested_files_pth, 'w' ) as file:
-            file.write(json.dumps(filenames))
+            file.write(json.dumps([filename for filename in filenames if 'dvc' not in filename]))
 
     def run(self):
         self.merge_multiple_dataframe()
