@@ -5,33 +5,48 @@ Name: Felipe Lana Machado
 Date: 30/08/2022
 """
 
-import pickle
-from sklearn.model_selection import train_test_split
+import logging as log
 import pandas as pd
-import numpy as np
-from sklearn import metrics
+from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 import matplotlib.pyplot as plt
-import seaborn as sns
 import json
 import os
 
 from src.pipeline.pipeline import Pipeline
-from src.utils.projects_paths import CONFIG_FILE
+from src.utils.projects_paths import BASE_PATH, CONFIG_FILE
+
+from src.pipeline.diagnostics import DiagnosticsPipeline
+
 
 class ReportingPipeline(Pipeline):
 
     def __init__(self) -> None:
         super().__init__()
-        with open(CONFIG_FILE,'r') as f:
-            config = json.load(f) 
+        with open(CONFIG_FILE, 'r') as f:
+            config = json.load(f)
 
-        dataset_csv_path = os.path.join(config['output_folder_path']) 
+        self.dataset_csv_path = os.path.join(
+            BASE_PATH, config['output_folder_path'])
+        self.metrics_path = os.path.join(
+            BASE_PATH, config['output_metrics_path'])
+        self.test_data_path = os.path.join(BASE_PATH, config['test_data_path'])
 
     def score_model(self):
-        #calculate a confusion matrix using the test data and the deployed model
-        #write the confusion matrix to the workspace
-        pass
+        """Calculate a confusion matrix using the test 
+            data and the deployed model and write the confusion 
+            matrix to the workspace
+        """
+        diagnostics = DiagnosticsPipeline()
+        y_pred = diagnostics.model_predictions()
 
+        data = pd.read_csv(os.path.join(self.test_data_path, 'testdata.csv'))
+        y_true = data['exited']
+
+        confusion_mat = confusion_matrix(y_true, y_pred)
+        disp = ConfusionMatrixDisplay(confusion_matrix=confusion_mat)
+        disp.plot()
+        log.info(f'Savind confusion matrix in {self.metrics_path}')
+        plt.savefig(os.path.join(self.metrics_path, 'confusionmatrix.png'))
 
     def run(self):
         self.score_model()
