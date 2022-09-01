@@ -17,6 +17,10 @@ class FullprocessPipelie(Pipeline):
     def __init__(self) -> None:
         super().__init__()
 
+    def run(self):
+        pass
+
+
     ##################Check and read new data
     #first, read ingestedfiles.txt
 

@@ -33,14 +33,17 @@ class DiagnosticsPipeline(Pipeline):
         self.metrics_path = os.path.join(
             BASE_PATH, config['output_metrics_path'])
 
-    def model_predictions(self):
+    def model_predictions(self, data_path: str = None):
         """Read the deployed model and a test dataset, 
             calculate predictions
 
         Returns:
             list: Returns a list containing all predictions
         """
-        data = pd.read_csv(os.path.join(self.test_data_path, 'testdata.csv'))
+        if data_path == None:
+            data = pd.read_csv(os.path.join(self.test_data_path, 'testdata.csv'))
+        else:
+            data = pd.read_csv(os.path.join(BASE_PATH, data_path))
         y = data['exited']
         X = data.drop(['corporation', 'exited'], axis=1)
 
@@ -51,13 +54,16 @@ class DiagnosticsPipeline(Pipeline):
 
         return y_pred.tolist()
 
-    def dataframe_summary(self):
+    def dataframe_summary(self, data_path: str = None):
         """Calculate summary statistics
 
         Returns:
             list: Returns a list containing all summary statistics
         """
-        df = pd.read_csv(os.path.join(self.dataset_csv_path, 'finaldata.csv'))
+        if data_path == None:
+            df = pd.read_csv(os.path.join(self.dataset_csv_path, 'finaldata.csv'))
+        else:
+            df = pd.read_csv(os.path.join(BASE_PATH, data_path))
         df = df.drop(['corporation', 'exited'], axis=1)
 
         stats_dict = {}
@@ -94,14 +100,17 @@ class DiagnosticsPipeline(Pipeline):
         outdated_list = json.loads(outdated)
         return outdated_list
 
-    def missing_data(self):
+    def missing_data(self, data_path: str = None):
         """This functions is to check the percentage of 
            missing data in the finaldata file.
 
         Returns:
             list: Returns the list containing the percent of NAs
-        """        
-        data = pd.read_csv(os.path.join(self.dataset_csv_path, 'finaldata.csv'))
+        """   
+        if data_path == None:     
+            data = pd.read_csv(os.path.join(self.dataset_csv_path, 'finaldata.csv'))
+        else:
+            data = pd.read_csv(os.path.join(BASE_PATH, data_path))
         percent_na = list(data.isna().sum(axis=1)/data.shape[0])
         return percent_na
 

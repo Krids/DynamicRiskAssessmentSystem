@@ -29,13 +29,18 @@ class Scoring:
             BASE_PATH, config['output_metrics_path'])
         self.test_data_path = os.path.join(BASE_PATH, config['test_data_path'])
 
-    def score_model(self):
+    def score_model(self, data_path: str = None):
         """This function should take a trained model, load test data, 
             and calculate an F1 score for the model relative to the 
             test data it should write the result to the latestscore.txt
-        """
 
-        test_df = pd.read_csv(os.path.join(self.test_data_path, 'testdata.csv'))
+            Returns:
+            double: F1 Score for the model on the data.
+        """
+        if data_path == None:
+            test_df = pd.read_csv(os.path.join(self.test_data_path, 'testdata.csv'))
+        else:
+            test_df = pd.read_csv(os.path.join(BASE_PATH, data_path))
 
         X_test = test_df.drop(['corporation', 'exited'], axis=1)
         y_test = test_df['exited']
@@ -50,3 +55,4 @@ class Scoring:
         log.info(f"Savind F1 score in {self.metrics_path}")
         with open(os.path.join(self.metrics_path, 'latestscore.txt'), 'w') as file:
             file.write(str(f1_score))
+        return f1_score
