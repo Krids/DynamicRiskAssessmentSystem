@@ -98,3 +98,4 @@ class FullprocessPipelie(Pipeline):
 
             # Run diagnostics
             subprocess.run(['python', 'main.py', '-p', 'reporting'])
+            subprocess.run(['python', 'src/api/apicalls.py'])

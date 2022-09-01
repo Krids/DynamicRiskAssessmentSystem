@@ -33,109 +33,79 @@ pip install -r requirements.txt
 
 ## Project Structure
 ```bash
-📦Census Bureal Classification
- ┣ 
+📦Dynamic Risk Assessment System
+ ┣ 📂.dvc
  ┣ 📂.github
  ┃ ┗ 📂workflows
- ┃ ┃ ┗ 📜main.yml           # Github Action yml file
- ┣ 📂data                   # Dataset folder
- ┃ ┣ 📂raw
- ┃ ┗ 📂processed   
+ ┃ ┃ ┗ 📜main.yml             # Github Action yml file
+ ┣ 📂data                     # Dataset folder
+ ┃ ┣ 📂ingesteddata
+ ┃ ┣ 📂practicedata
+ ┃ ┣ 📂sourcedata
+ ┃ ┗ 📂testdata
  ┣ 📂docs      
+ ┃ ┣ 📂images                 # Some images to help
  ┃ ┣ 📂metrics                # Model metrics
  ┃ ┣ 📂models                 # Trained serialized models
- ┃ ┗ 📂plots                  # Saved figures
- ┣ 📂notebooks              # EDA notebook
- ┣ 📂screenshots            # Screenshots needed for the project other resources
- ┣ 📂src                
- ┃ ┣ 📂app                  # FastAPI folder
- ┃ ┣ 📂pipeline             # Model pipeline architecture and train functions
- ┃ ┣ 📂tests                # Testing functions
- ┃ ┣ 📜config.py            # Config file for the project
- ┃ ┣ 📜request_heroku.py    # Request from API deployed on Heroku
- ┃ ┗ 📜training.py          # Train model and generate metrics and figures
- ┣ 📜Aptfile                # Used for integrating DVC with Heroku
- ┣ 📜model_card.md          # Model card includes info about the model 
- ┣ 📜Procfile               # Procfile for Heroku
- ┣ 📜README.md              
- ┗ 📜requirements.txt       # Projects required dependencies
+ ┃ ┃ ┗📂practicemodels 
+ ┃ ┃ ┗📂production_deployment 
+ ┣ 📂src                  
+ ┃ ┣ 📂api                    # Flask API folder
+ ┃ ┃ ┣ 📜app.py
+ ┃ ┃ ┣ 📜apicalls.py
+ ┃ ┃ ┗ 📜wsgi.py                             
+ ┃ ┣ 📂pipeline                # Model pipeline architecture and train functions
+ ┃ ┗ ┗📜pipeline.py            
+ ┃ ┃ ┣📜ingestion.py           
+ ┃ ┃ ┣📜training.py            
+ ┃ ┃ ┣📜scoring.py             
+ ┃ ┃ ┣📜deployment.py          
+ ┃ ┃ ┣📜training_pipeline.py   
+ ┃ ┃ ┣📜diagnostics.py      
+ ┃ ┃ ┣📜reporting.py      
+ ┃ ┃ ┣📜fullprocess.py      
+ ┣📜README.md                
+ ┣📜requirements.txt         # Projects required dependencies
+ ┣📜cronjob.txt              # The cronjob file
+ ┗📜main.py                  # The main file for this project
 ```
 ## Usage
-The config file contains ```MODEL``` variable with a  ```RandomForestClassifier```. The model with a set of parameters for the grid search ```PARAM_GRID```. You can your own model with the parameters needed. The ```SLICE_COLUMNS``` variable is responsible for the columns for slice evaluation.
+The config file contains the paths for all files.
 
-1- Start training
+1- Ingestion
 ```bash
-cd src
-python training.py
+python main.py -p ingestion
 ```
-This saves a seralized model, generates evaluation metrics, slice evaluation metrics and figures,
 
-2- Start FastAPI app
+2- Training
 ```bash
-cd src
-uvicorn app.api:app --reload
+python main.py -p training
 ```
 
-3- FastAPI app documentation to test the API from the browser
-```
-http://127.0.0.1:8000/docs
-```
-
-<img src="screenshots/example.png">
-
-4- Testing the project
+2- Dignostics
 ```bash
-cd src
-pytest -vv
+python main.py -p diagnostics
 ```
-5- Showing tracked files with DVC
+
+3- Reporting
 ```bash
-dvc dag
+python main.py -p reporting
 ```
 
-<img src="screenshots/dvc_dag.png">
-
-6- CI using github action will be triggered upon pushing to github
+3- Automation
 ```bash
-git push
+python main.py -p automation
 ```
 
-7- CD is enabled from within Heroku app settings
-
-<img src="screenshots/continuous_deployment.png">
-
-8- Starting the app on Heroku
-
-<img src="screenshots/live_get.png">
-
-9- Test deployment on Heroku, demo post request
+3- API
 ```bash
-python request_heroku.py
+python main.py -p api
 ```
 
-<img src="screenshots/live_post.png">
+3- APICALLS
+```bash
+python src/api/apicalls.py
+```
 
 ## License
 Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License. See ```LICENSE``` for more information.
-
-## Resources
-
-- Data and Modeling
-  - [An article about the data and its ML application](https://medium.com/analytics-vidhya/machine-learning-application-census-income-prediction-868227debf12)
-- ML Testing
-  - [Made with ML Testing Lesson](https://madewithml.com/courses/mlops/testing/)
-  - [Jeremy Jordan Article](https://www.jeremyjordan.me/testing-ml/)
-  - [Eugeneyan Article about ML Testing](https://eugeneyan.com/writing/testing-ml/)
-  - [Eugeneyan Article about Python Automation and Collaboration](https://eugeneyan.com/writing/setting-up-python-project-for-automation-and-collaboration/)
-  - [mCoding video for automated testing](https://www.youtube.com/watch?v=DhUpxWjOhME)
-- FastAPI
-  - [Made with ML API Lesson](https://madewithml.com/courses/mlops/api/)
-  - [FastAPI Tutorial](https://fastapi.tiangolo.com/tutorial/)
-- Github Actions
-  - [Made with ML CI/CD Lesson](https://madewithml.com/courses/mlops/cicd/)
-  - [DVC with Github Actions](https://github.com/iterative/setup-dvc)
-  - [AWS Credentials with Github Actions #1](https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions#sample-iam-role-cloudformation-template)
-  - [AWS Credentials with Github Actions #2](https://stackoverflow.com/questions/58643905/how-aws-credentials-works-at-github-actions)
-- Heroku
-  - [Procfile Tutorial](https://devcenter.heroku.com/articles/procfile)
-  - [Integrate DVC with Heroku](https://ankane.org/dvc-on-heroku)
