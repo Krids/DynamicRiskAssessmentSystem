@@ -13,7 +13,6 @@ import requests
 BASE_PATH = os.path.abspath('.')
 CONFIG_FILE = os.path.join(BASE_PATH, 'src', 'utils', 'config.json')
 
-
 # Specify a URL that resolves to your workspace
 URL = "http://127.0.0.1:8000"
 

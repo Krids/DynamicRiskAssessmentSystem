@@ -1,0 +1,1 @@
+10 * * * * python main.py -p fullprocess

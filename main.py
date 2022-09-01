@@ -9,7 +9,7 @@ import logging as log
 from argparse import ArgumentParser, Namespace
 from src.pipeline.diagnostics import DiagnosticsPipeline
 from src.api.app import ApiPipeline
-# from src.pipeline.fullprocess import FullprocessPipeline
+from src.pipeline.fullprocess import FullprocessPipelie
 from src.pipeline.ingestion import IngestionPipeline
 from src.pipeline.reporting import ReportingPipeline
 from src.pipeline.training_pipeline import TrainingPipeline
@@ -21,8 +21,8 @@ PIPELINES = {
     "training": TrainingPipeline(),
     "diagnostics": DiagnosticsPipeline(),
     "reporting": ReportingPipeline(),
+    "automation": FullprocessPipelie(),
     "api": ApiPipeline(),
-    # "automation": FullprocessPipeline(),
 }
 
 
